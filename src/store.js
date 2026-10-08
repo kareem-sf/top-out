@@ -1,12 +1,12 @@
-// Local profile: XP, rank, bests, streak. localStorage only.
+// Local profile. localStorage only.
 export const RANKS = [
   [0, 'Trainee QS'],
-  [500, 'Assistant QS'],
-  [1500, 'Quantity Surveyor'],
-  [4000, 'Senior QS'],
-  [8000, 'Commercial Manager'],
-  [15000, 'Commercial Director'],
-  [30000, 'Partner'],
+  [400, 'Assistant QS'],
+  [1200, 'Quantity Surveyor'],
+  [3000, 'Senior QS'],
+  [6500, 'Commercial Manager'],
+  [12000, 'Commercial Director'],
+  [25000, 'Partner'],
 ];
 
 export function rankFor(xp) {
@@ -19,9 +19,10 @@ export function rankFor(xp) {
     progress: next ? (xp - cur[0]) / (next[0] - cur[0]) : 1 };
 }
 
-const KEY = 'site-break-v1';
+const KEY = 'site-break-v2';
 
-const blank = () => ({ xp: 0, market: 'eg', best: { duel: 0, takeoff: 0 }, streak: 0, lastDay: null, tenders: {} });
+const blank = () => ({ xp: 0, best: { floors: 0, value: 0 }, unlocked: ['villa'], project: 'villa', daily: null,
+  streak: 0, lastDay: null, muted: false, tutorialSeen: false, games: 0 });
 
 export function load() {
   try {
@@ -34,9 +35,10 @@ export function save(s) {
   try { localStorage.setItem(KEY, JSON.stringify(s)); } catch { /* private mode */ }
 }
 
-// Daily streak: played yesterday keeps it, a gap resets it. Pure, for tests.
-export function bumpStreak(state, dayKey, yesterdayKey) {
-  if (state.lastDay === dayKey) return state;
-  const streak = state.lastDay === yesterdayKey ? state.streak + 1 : 1;
-  return { ...state, streak, lastDay: dayKey };
+export function dayKey(date = new Date()) { return date.toISOString().slice(0, 10); }
+
+export function bumpStreak(state, today, yesterday) {
+  if (state.lastDay === today) return state;
+  const streak = state.lastDay === yesterday ? state.streak + 1 : 1;
+  return { ...state, streak, lastDay: today };
 }
