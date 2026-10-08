@@ -19,7 +19,7 @@ export function rankFor(xp) {
     progress: next ? (xp - cur[0]) / (next[0] - cur[0]) : 1 };
 }
 
-const KEY = 'site-break-v2';
+const KEY = 'top-out-v1';
 
 const blank = () => ({ xp: 0, best: { floors: 0, value: 0 }, unlocked: ['villa'], project: 'villa', daily: null,
   streak: 0, lastDay: null, muted: false, tutorialSeen: false, games: 0 });

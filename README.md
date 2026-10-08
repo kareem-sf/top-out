@@ -1,4 +1,4 @@
-# Site Break
+# Top Out
 
 Build the tower. One tap, one floor. Real quantities, real prices.
 
@@ -38,7 +38,7 @@ src/data/prices.js           items per market
 src/data/projects.js         levels and brand metals
 src/store.js, src/rng.js     profile and seeded random
 tests/                       node --test
-public/                      Site Break mark, lockup, favicon
+public/                      Top Out mark, lockup, favicon
 ```
 
 MIT licence.

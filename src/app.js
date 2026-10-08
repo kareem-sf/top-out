@@ -30,7 +30,7 @@ function startRound(asBot) {
   if (daily && !bot) {
     const n = dailyNumber();
     project = PROJECTS[n % PROJECTS.length];
-    rand = mulberry32(hashString(`site-break-daily-${n}`));
+    rand = mulberry32(hashString(`top-out-daily-${n}`));
   } else if (!bot) {
     rand = Math.random;
   }
@@ -202,7 +202,7 @@ function gameOver() {
 function shareText() {
   const floors = floorsBuilt(tower);
   const cur = MARKETS[project.market].currency;
-  const head = daily ? `Site Break Daily #${dailyNumber()}` : `Site Break · ${project.name}, ${project.city}`;
+  const head = daily ? `Top Out Daily #${dailyNumber()}` : `Top Out · ${project.name}, ${project.city}`;
   return `${head}\n🏗️ ${floors} floors · ${cur} ${compact(Math.round(tower.boq.value))} contract value\nhttps://play.kareemsafwat.com`;
 }
 
