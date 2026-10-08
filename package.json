@@ -1,0 +1,11 @@
+{
+  "name": "site-break",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Quick games for engineers who are waiting. A QS Mind side project.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "dev": "npx -y serve -l 4173 ."
+  }
+}

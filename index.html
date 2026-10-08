@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Site Break</title>
+  <meta name="description" content="Quick games for engineers who are waiting. Guess the price, take off the quantity, win the tender." />
+  <meta name="theme-color" content="#0E0F12" />
+  <link rel="icon" href="/public/favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content="Site Break" />
+  <meta property="og:description" content="Quick games for engineers who are waiting. Guess the price, take off the quantity, win the tender." />
+  <meta property="og:url" content="https://play.kareemsafwat.com" />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+  </script>
+</head>
+<body>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <header class="top">
+    <a class="brand" href="#" data-go="home" aria-label="Site Break home">
+      <span class="brand-dot"></span>
+      <span>Site Break</span>
+    </a>
+    <div class="top-right">
+      <button class="pill" id="market-btn" type="button" aria-label="Change market"></button>
+      <button class="pill rank" id="rank-btn" type="button" aria-label="Your rank">
+        <span id="rank-title"></span>
+        <span class="xp-bar"><span id="xp-fill"></span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- Home -->
+    <section class="screen" id="home">
+      <div class="hero">
+        <p class="eyebrow">For engineers who are waiting</p>
+        <h1>Two minutes.<br/>Real numbers.<br/>One more round.</h1>
+        <p class="lede">The model is thinking, the email hasn't landed, the meeting is late. Play a round built on real market rates and real quantities.</p>
+      </div>
+
+      <div class="cards">
+        <button class="card" data-go="duel" type="button">
+          <span class="card-tag">Endless</span>
+          <span class="card-icon">⚖️</span>
+          <span class="card-title">Rate Duel</span>
+          <span class="card-sub">Which one costs more? Tap fast, keep the streak alive.</span>
+          <span class="card-best">Best <b id="best-duel">0</b></span>
+        </button>
+        <button class="card" data-go="takeoff" type="button">
+          <span class="card-tag">60 seconds</span>
+          <span class="card-icon">📐</span>
+          <span class="card-title">Takeoff Sprint</span>
+          <span class="card-sub">Read the element, pick the right quantity before the clock runs out.</span>
+          <span class="card-best">Best <b id="best-takeoff">0</b></span>
+        </button>
+        <button class="card card-daily" data-go="tender" type="button">
+          <span class="card-tag">Daily</span>
+          <span class="card-icon">📬</span>
+          <span class="card-title">Daily Tender</span>
+          <span class="card-sub">Price five items, beat three bidders, keep a margin. Same tender for everyone today.</span>
+          <span class="card-best" id="daily-status">Streak <b id="streak">0</b></span>
+        </button>
+      </div>
+
+      <footer class="foot">
+        <a href="https://qsmind.com" target="_blank" rel="noopener">
+          <img src="/public/qs-mind-mark-small-white.svg" alt="" width="20" height="20" />
+          A QS Mind side project
+        </a>
+        <span>Prices are indicative, mid-2025</span>
+      </footer>
+    </section>
+
+    <!-- Rate Duel -->
+    <section class="screen" id="duel" hidden>
+      <div class="hud">
+        <button class="back" data-go="home" type="button" aria-label="Back">←</button>
+        <div class="hud-stat"><small>Score</small><b id="duel-score">0</b></div>
+        <div class="hud-stat"><small>Streak</small><b id="duel-streak">0</b></div>
+        <div class="hud-stat lives" id="duel-lives" aria-label="Lives"></div>
+      </div>
+      <p class="prompt">Which costs more <span class="per" id="duel-per"></span>?</p>
+      <div class="duel-pair" id="duel-pair"></div>
+      <p class="hint" id="duel-hint">Tap the pricier one. Faster is worth more.</p>
+    </section>
+
+    <!-- Takeoff Sprint -->
+    <section class="screen" id="takeoff" hidden>
+      <div class="hud">
+        <button class="back" data-go="home" type="button" aria-label="Back">←</button>
+        <div class="hud-stat"><small>Score</small><b id="to-score">0</b></div>
+        <div class="hud-stat"><small>Level</small><b id="to-level">1</b></div>
+        <div class="hud-stat time"><small>Time</small><b id="to-time">60</b></div>
+      </div>
+      <div class="to-view">
+        <div class="to-3d" id="to-3d"></div>
+        <div class="to-dims" id="to-dims"></div>
+      </div>
+      <p class="prompt" id="to-ask"></p>
+      <div class="options" id="to-options"></div>
+      <div class="timebar"><span id="to-timefill"></span></div>
+    </section>
+
+    <!-- Daily Tender -->
+    <section class="screen" id="tender" hidden>
+      <div class="hud">
+        <button class="back" data-go="home" type="button" aria-label="Back">←</button>
+        <div class="hud-stat grow"><small id="tender-no">Tender</small><b id="tender-project"></b></div>
+      </div>
+      <div id="tender-body"></div>
+    </section>
+  </main>
+
+  <!-- Overlay: results, intro, market -->
+  <div class="overlay" id="overlay" hidden>
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>
